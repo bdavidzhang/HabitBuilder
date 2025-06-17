@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Builder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .result-section {
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .habit-card {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        .habit-card h3 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .habit-card p {
+            margin-bottom: 5px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Goal Decomposition</h1>
+        <p>Enter your high-level goal below, and I'll help you break it down into atomic habits.</p>
+        <textarea id="goalInput" rows="5" placeholder="e.g., I want to get healthier"></textarea>
+        <button onclick="decomposeGoal()">Decompose Goal</button>
+
+        <div class="result-section" id="decomposeResultSection" style="display: none;">
+            <h2>Decomposed Habits</h2>
+            <p id="identityShift"></p>
+            <div id="atomicHabitsList"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Habit Stacking</h1>
+        <p>Enter your current habits (one per line) and desired new habits (one per line) to create habit stacks.</p>
+        <div class="input-group">
+            <label for="currentHabitsInput">Current Habits:</label>
+            <textarea id="currentHabitsInput" rows="5" placeholder="e.g.,&#10;Make my morning coffee&#10;Finish dinner&#10;Brush my teeth"></textarea>
+        </div>
+        <div class="input-group">
+            <label for="desiredHabitsInput">Desired Habits:</label>
+            <textarea id="desiredHabitsInput" rows="5" placeholder="e.g.,&#10;Read one page of a book&#10;Floss my teeth&#10;Meditate for 1 minute"></textarea>
+        </div>
+        <button onclick="stackHabits()">Stack Habits</button>
+
+        <div class="result-section" id="stackResultSection" style="display: none;">
+            <h2>Stacked Habits</h2>
+            <div id="stackedHabitsList"></div>
+        </div>
+    </div>
+
+    <script>
+        async function decomposeGoal() {
+            const goal = document.getElementById('goalInput').value;
+            if (!goal) {
+                alert('Please enter a goal!');
+                return;
+            }
+
+            document.getElementById('decomposeResultSection').style.display = 'none';
+            document.getElementById('identityShift').innerText = '';
+            document.getElementById('atomicHabitsList').innerHTML = '';
+
+            try {
+                const response = await fetch('/decompose_goal', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ goal: goal })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('identityShift').innerText = data.identity_shift;
+                    const habitsList = document.getElementById('atomicHabitsList');
+                    data.atomic_habits.forEach(habit => {
+                        const habitCard = document.createElement('div');
+                        habitCard.className = 'habit-card';
+                        habitCard.innerHTML = `
+                            <h3>${habit.habit_name}</h3>
+                            <p><strong>Two-minute version:</strong> ${habit.two_minute_version}</p>
+                            <p><strong>Rationale:</strong> ${habit.rationale}</p>
+                        `;
+                        habitsList.appendChild(habitCard);
+                    });
+                    document.getElementById('decomposeResultSection').style.display = 'block';
+                } else {
+                    alert('Error: ' + (data.error || 'Something went wrong.'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while communicating with the server.');
+            }
+        }
+
+        async function stackHabits() {
+            const currentHabits = document.getElementById('currentHabitsInput').value.split('\n').map(s => s.trim()).filter(s => s);
+            const desiredHabits = document.getElementById('desiredHabitsInput').value.split('\n').map(s => s.trim()).filter(s => s);
+
+            if (currentHabits.length === 0 || desiredHabits.length === 0) {
+                alert('Please enter both current and desired habits!');
+                return;
+            }
+
+            document.getElementById('stackResultSection').style.display = 'none';
+            document.getElementById('stackedHabitsList').innerHTML = '';
+
+            try {
+                const response = await fetch('/stack_habits', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ current_habits: currentHabits, desired_habits: desiredHabits })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    const stackedHabitsList = document.getElementById('stackedHabitsList');
+                    if (data.habit_stacks && data.habit_stacks.length > 0) {
+                        data.habit_stacks.forEach(stack => {
+                            const habitCard = document.createElement('div');
+                            habitCard.className = 'habit-card';
+                            habitCard.innerHTML = `
+                                <h3>${stack.stack_formula}</h3>
+                                <p><strong>Anchor Habit:</strong> ${stack.anchor_habit}</p>
+                                <p><strong>New Habit:</strong> ${stack.new_habit}</p>
+                                <p><strong>Reasoning:</strong> ${stack.reasoning}</p>
+                            `;
+                            stackedHabitsList.appendChild(habitCard);
+                        });
+                    } else {
+                        stackedHabitsList.innerHTML = '<p>No habit stacks could be generated with the provided habits.</p>';
+                    }
+                    document.getElementById('stackResultSection').style.display = 'block';
+                } else {
+                    alert('Error: ' + (data.error || 'Something went wrong.'));
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while communicating with the server.');
+            }
+        }
+    </script>
+</body>
+</html>
