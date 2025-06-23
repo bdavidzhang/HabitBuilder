@@ -1,0 +1,12 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//HabitFormingAI//EN
+BEGIN:VEVENT
+UID:9c3c8f89-6dfc-4e90-a639-dd347902ca7a
+DTSTAMP:20250617T053359Z
+DTSTART:20250618T190000
+DTEND:20250618T193000
+SUMMARY:Spend two minutes each day holding the guitar, plucking the strings, and getting comfortable with its feel and sound.
+DESCRIPTION:This event was created by your AI Habit Coach to help you stay on track!
+END:VEVENT
+END:VCALENDAR

@@ -1,0 +1,94 @@
+{
+    "user_id": "user123",
+    "main_goal": "Learn to play the guitar",
+    "identity_shift": "You are becoming someone who plays the guitar regularly and enjoys making music.",
+    "habits": {
+        "Spend two minutes each day holding the guitar, plucking the strings, and getting comfortable with its feel and sound.": {
+            "history": [
+                true,
+                true
+            ],
+            "stacked_on": null
+        },
+        "Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.": {
+            "history": [
+                true,
+                false,
+                true,
+                false,
+                false
+            ],
+            "stacked_on": null
+        },
+        "Spend two minutes daily practicing switching between two basic chords, aiming for smoother transitions.": {
+            "history": [],
+            "stacked_on": null
+        },
+        "Dedicate two minutes each day to playing a very simple song or melody using the chords you've learned.": {
+            "history": [],
+            "stacked_on": null
+        }
+    },
+    "conversation_log": [
+        {
+            "role": "user",
+            "content": "Wants to deconstruct goal: Learn to play the guitar",
+            "timestamp": "2025-06-17T13:33:49.320659"
+        },
+        {
+            "role": "agent",
+            "content": "Created calendar event for 'Spend two minutes each day holding the guitar, plucking the strings, and getting comfortable with its feel and sound.'.",
+            "timestamp": "2025-06-17T13:33:59.306061"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Spend two minutes each day holding the guitar, plucking the strings, and getting comfortable with its feel and sound.' as True",
+            "timestamp": "2025-06-17T13:33:59.306407"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Spend two minutes each day holding the guitar, plucking the strings, and getting comfortable with its feel and sound.' as True",
+            "timestamp": "2025-06-17T13:33:59.306691"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.' as True",
+            "timestamp": "2025-06-17T13:33:59.306918"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.' as False",
+            "timestamp": "2025-06-17T13:33:59.307146"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.' as True",
+            "timestamp": "2025-06-17T13:33:59.307360"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.' as False",
+            "timestamp": "2025-06-17T13:33:59.307591"
+        },
+        {
+            "role": "user",
+            "content": "Logged habit 'Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.' as False",
+            "timestamp": "2025-06-17T13:33:59.307985"
+        },
+        {
+            "role": "agent",
+            "content": "Running daily check.",
+            "timestamp": "2025-06-17T13:33:59.308320"
+        },
+        {
+            "role": "agent",
+            "content": "Analyzing struggling habit: Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.",
+            "timestamp": "2025-06-17T13:33:59.308349"
+        },
+        {
+            "role": "agent",
+            "content": "Suggested adjustment for Practice forming one basic chord (like G or C) for two minutes daily, focusing on finger placement and sound.: ['Place your guitar in a visible and easily accessible spot to reduce friction and remind you to practice.', 'Pair your guitar practice with an existing daily habit, like right after your morning coffee or before dinner, to help establish a routine.', 'Set a timer for two minutes to keep the practice session short and manageable, making it easier to commit to daily.']",
+            "timestamp": "2025-06-17T13:34:06.569281"
+        }
+    ]
+}
