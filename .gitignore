@@ -1,3 +1,27 @@
+# Environment variables
 .env
+.env.local
+.env.production
+
+# Python virtual environment and cache
 /.venv/
 /__pycache__/
+*.pyc
+*.pyo
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# React build and dependencies
+frontend/habit-builder-react/build/
+frontend/habit-builder-react/node_modules/
+frontend/habit-builder-react/.env
+frontend/habit-builder-react/.env.local
+
+# IDE and OS files
+.vscode/
+.DS_Store
+*.log
